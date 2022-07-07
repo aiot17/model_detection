@@ -136,16 +136,16 @@ for i in range(0, detections.shape[2]):
 
         # 以下機率與socket
         # print(f"{name}, {proba*100:.2f} %")
-        if proba > 0.5:
-            msg = name
-            # print(f"this is {msg}")
-            HOST = '192.168.22.196'
-            PORT = 5000
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((HOST, PORT))
-            s.send(msg.encode())
-            s.close()
-        else:
+        # if proba > 0.5:
+        #     msg = name
+        #     # print(f"this is {msg}")
+        #     HOST = '192.168.22.196'
+        #     PORT = 5000
+        #     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #     s.connect((HOST, PORT))
+        #     s.send(msg.encode())
+        #     s.close()
+        # else:
             # sio = socketio.Client()
 
             # @sio.event
@@ -164,7 +164,7 @@ for i in range(0, detections.shape[2]):
 
             # sio.connect('http://192.168.22.79:5450')
             # sio.wait()
-            r = yes(name) if proba > 0.5 else no(0)
+        r = yes(name) if proba > 0.5 else no(0)
         # 以上機率與socket
         # draw the bounding box of the face along with the associated
         # probability
