@@ -13,19 +13,21 @@ import cv2
 import os
 import socket
 import socketio
-
+import requests
 
 # ****this py file is revised for demo purpose****
 
 # below java and nodejs socket
 def yes(name):
-    msg = name
-    HOST = '192.168.22.203'
-    PORT = 4200
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-    s.send(msg.encode())
-    s.close()
+    HOST = '192.168.22.10'
+    PORT = 8080
+    url = f"http://{HOST}:{PORT}/DemoTzuYao/Http?user={name}"
+    r = requests.get(url)
+    print(r.text)
+    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # s.connect((HOST, PORT))
+    # s.send(msg.encode())
+    # s.close()
 
 def no(msg):
     HOST = '192.168.22.'
