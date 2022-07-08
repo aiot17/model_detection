@@ -19,37 +19,30 @@ import socketio
 
 # below java and nodejs socket
 def yes(name):
-    msg = {"azen":"001","Chao":"002","Dav":"003","hubert_test":"004","kk":"005","TzuYao":"006"}.get(name)
-    HOST = '192.168.22.196'
-    PORT = 5000
-    print(msg)
-    mainSocket(HOST,PORT,msg)
+    msg = name
+    HOST = '192.168.22.203'
+    PORT = 4200
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    s.send(msg.encode())
+    s.close()
 
 def no(msg):
     HOST = '192.168.22.'
     PORT = 5550
-    print(msg)
-    mainSocket(HOST,PORT,msg)
-
-def mainSocket(HOST,PORT,msg):
     sio = socketio.Client()
 
     @sio.event
     def connect():
         print('connection established')
         sio.emit('dataPy', "0")
-
-    # @sio.event
-    # def my_message(data):
-    #     print('message received with ', data)
-    #     # sio.emit('dataPy', "abc")
+        sio.disconnect()
         
     @sio.event
     def disconnect():
         print('disconnected from server')
 
-    sio.connect('http://192.168.22.79:5450')
-    sio.wait()
+    sio.connect('http://192.168.22.79:5450') 
 # above java and nodejs socket
 
 # construct the argument parser and parse the arguments
@@ -133,39 +126,12 @@ for i in range(0, detections.shape[2]):
         j = np.argmax(preds)
         proba = preds[j]
         name = le.classes_[j]
-
+        # print(proba,name)
+        
         # 以下機率與socket
-        # print(f"{name}, {proba*100:.2f} %")
-        # if proba > 0.5:
-        #     msg = name
-        #     # print(f"this is {msg}")
-        #     HOST = '192.168.22.196'
-        #     PORT = 5000
-        #     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #     s.connect((HOST, PORT))
-        #     s.send(msg.encode())
-        #     s.close()
-        # else:
-            # sio = socketio.Client()
-
-            # @sio.event
-            # def connect():
-            #     print('connection established')
-            #     sio.emit('dataPy', "0")
-
-            # @sio.event
-            # def my_message(data):
-            #     print('message received with ', data)
-            #     # sio.emit('dataPy', "abc")
-                
-            # @sio.event
-            # def disconnect():
-            #     print('disconnected from server')
-
-            # sio.connect('http://192.168.22.79:5450')
-            # sio.wait()
         r = yes(name) if proba > 0.5 else no(0)
         # 以上機率與socket
+
         # draw the bounding box of the face along with the associated
         # probability
         # text = "{}: {:.2f}%".format(name, proba * 100)
